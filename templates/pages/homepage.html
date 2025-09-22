@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-homepage{% endblock %}
+
+{% block content %}
+<header class="masthead bg-primary text-white text-center py-5 mb-5 d-flex align-items-center justify-content-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold text-shadow">Votre assistant financier intelligent</h1>
+        <p class="lead mt-3">
+            Gérez vos finances, optimisez votre épargne et recevez des conseils personnalisés grâce à l'IA.
+        </p>
+        <hr class="my-4 border-white-50">
+        <p>Prêt à prendre le contrôle de votre argent ?</p>
+        <a class="btn btn-light btn-lg mt-3 shadow-lg" href="{{ url_for('main.login') }}" role="button">Commencer maintenant</a>
+    </div>
+</header>
+
+<main class="container">
+    <section id="features" class="row text-center mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 shadow-sm feature-card">
+                <div class="card-body">
+                    <i class="bi bi-graph-up-arrow text-primary display-4 mb-3"></i>
+                    <h3 class="card-title fw-bold">Analyse Intelligente</h3>
+                    <p class="card-text">
+                        Nous analysons vos transactions et vos habitudes de dépense pour vous donner une vue d'ensemble claire de votre situation financière.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 shadow-sm feature-card">
+                <div class="card-body">
+                    <i class="bi bi-robot text-primary display-4 mb-3"></i>
+                    <h3 class="card-title fw-bold">Conseils Personnalisés</h3>
+                    <p class="card-text">
+                        Notre IA générative crée des recommandations sur mesure pour vous aider à atteindre vos objectifs financiers.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 p-4 shadow-sm feature-card">
+                <div class="card-body">
+                    <i class="bi bi-chat-dots text-primary display-4 mb-3"></i>
+                    <h3 class="card-title fw-bold">Chat Conversationnel</h3>
+                    <p class="card-text">
+                        Discutez avec votre assistant financier pour obtenir des réponses rapides et des conseils en temps réel.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="p-5 rounded text-center my-5 about-section">
+        <h2>Une nouvelle façon de gérer vos finances</h2>
+        <p class="lead">
+            Simplifiez votre vie financière. Notre assistant IA est là pour vous guider, de l'épargne quotidienne aux investissements à long terme.
+        </p>
+    </section>
+</main>
+{% endblock %}
+
+

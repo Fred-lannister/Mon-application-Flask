@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-login{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="width: 400px;">
+        <h1 class="card-title text-center mb-4">Connexion</h1>
+        <form action="{{ url_for('main.login') }}" method="post">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control") }}
+            </div>
+            {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
+        <div class="text-center mt-3">
+            <p>Pas encore de compte ? <a href="{{ url_for('main.register') }}">S'inscrire</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

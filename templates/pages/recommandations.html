@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-recommandations{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mb-4 text-white" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">Recommandations financières</h1>
+            <p class="lead text-white">Découvrez les recommandations personnalisées générées par votre assistant IA pour améliorer votre santé financière.</p>
+            
+            <div class="row mt-4">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 p-4 shadow-sm bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-success"><i class="bi bi-piggy-bank me-2"></i> Épargnez de manière systématique</h5>
+                            <p class="card-text">
+                                Mettez de côté un pourcentage de chaque revenu. L'automatisation du virement vers un compte d'épargne peut vous aider à atteindre vos objectifs plus rapidement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 p-4 shadow-sm bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger"><i class="bi bi-graph-up me-2"></i> Gérez vos dettes</h5>
+                            <p class="card-text">
+                                Concentrez-vous sur le remboursement des dettes à taux d'intérêt élevé. Vous économiserez de l'argent et atteindrez plus rapidement vos objectifs financiers.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 p-4 shadow-sm bg-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-info"><i class="bi bi-check2-circle me-2"></i> Suivez vos dépenses</h5>
+                            <p class="card-text">
+                                Tenez un budget et examinez vos dépenses chaque semaine. Cela vous aidera à identifier les domaines où vous pouvez économiser.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

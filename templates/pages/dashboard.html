@@ -1,0 +1,156 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mb-4 text-white" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">Tableau de bord</h1>
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5 class="text-muted">Solde actuel</h5>
+                        <p class="fs-2 fw-bold text-primary">{{ "%.2f"|format(total_balance) }} FCFA</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5 class="text-muted">Revenus du mois</h5>
+                        <p class="fs-2 fw-bold text-success">{{ "%.2f"|format(monthly_income) }} FCFA</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5 class="text-muted">Dépenses du mois</h5>
+                        <p class="fs-2 fw-bold text-danger">{{ "%.2f"|format(monthly_expenses) }} FCFA</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-3 shadow-sm">
+                        <h5 class="text-muted">Transaction la plus récente</h5>
+                        <p class="fs-4 fw-bold">
+                            {% if recent_transaction %}
+                            {{ recent_transaction.description }}
+                            {% else %}
+                            Aucune
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="card-title text-center">Évolution du solde</h5>
+                        <div class="chart-container">
+                            <canvas id="balanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="card-title text-center">Dépenses par catégorie</h5>
+                        <div class="chart-container">
+                            <canvas id="expensesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="card-title text-center">Dépenses mensuelles</h5>
+                        <div class="chart-container">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-lg-7 mb-4">
+                    <div class="card p-4 shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title">Transactions récentes</h5>
+                            <div>
+                                <button class="btn btn-outline-info btn-sm" id="generate-data-btn">Générer des données</button>
+                                <button class="btn btn-outline-danger btn-sm" id="clear-data-btn">Effacer les données</button>
+                            </div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% if user_transactions %}
+                                {% for transaction in user_transactions %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ transaction.description }}</strong>
+                                        <br>
+                                        <small class="text-muted">{{ transaction.date.strftime('%d-%m-%Y') }} - {{ transaction.category }}</small>
+                                    </div>
+                                    <span class="fs-5 {% if transaction.amount < 0 %}text-danger{% else %}text-success{% endif %}">
+                                        {{ "%.2f"|format(transaction.amount) }} FCFA
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="list-group-item text-muted text-center">Aucune transaction enregistrée.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-5 mb-4">
+                    <div class="card p-4 shadow-sm">
+                        <h5 class="card-title mb-3">Ajouter une transaction</h5>
+                        <form method="POST" action="{{ url_for('main.dashboard') }}">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                {{ form.description.label(class="form-label") }}
+                                {{ form.description(class="form-control") }}
+                                {% for error in form.description.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.amount.label(class="form-label") }}
+                                {{ form.amount(class="form-control") }}
+                                {% for error in form.amount.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.category.label(class="form-label") }}
+                                {{ form.category(class="form-control") }}
+                                {% for error in form.category.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.date.label(class="form-label") }}
+                                {{ form.date(class="form-control", type="date") }}
+                                {% for error in form.date.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {{ form.submit(class="btn btn-primary w-100") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Variables pour les graphiques, passées depuis Flask
+    var expensesLabels = {{ expenses_labels | safe }};
+    var expensesValues = {{ expenses_values | safe }};
+    var balanceLabels = {{ balance_labels | safe }};
+    var balanceValues = {{ balance_values | safe }};
+    var monthlyExpensesLabels = {{ monthly_expenses_labels | safe }};
+    var monthlyExpensesValues = {{ monthly_expenses_values | safe }};
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+

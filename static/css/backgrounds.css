@@ -1,0 +1,40 @@
+/* static/css/backgrounds.css */
+
+/* Styles généraux pour l'image de fond */
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    position: relative; /* Nécessaire pour le pseudo-élément */
+}
+
+/* Surcouche semi-transparente sur l'image de fond */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Noir semi-transparent */
+    z-index: -1; /* Place la surcouche derrière le contenu */
+}
+
+/* Images de fond pour chaque page */
+.bg-homepage { background-image: url('../images/finance1.jpg'); }
+.bg-login { background-image: url('../images/login.jpg'); }
+.bg-register { background-image: url('../images/register.jpg'); }
+.bg-dashboard { background-image: url('../images/finance2.jpg'); }
+.bg-chat { background-image: url('../images/finance3.jpg'); }
+.bg-recommandations { background-image: url('../images/finance4.jpg'); }
+.bg-objectifs { background-image: url('../images/finance6.jpg'); }
+.bg-profil { background-image: url('../images/finance5.jpg'); }
+
+
+
+
+
+
+
+

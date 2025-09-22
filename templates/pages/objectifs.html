@@ -1,0 +1,87 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-objectifs{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mb-4 text-white" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">Mes objectifs financiers</h1>
+            
+            <div class="card p-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title">Liste des objectifs</h5>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addObjectifModal">
+                        Ajouter un objectif
+                    </button>
+                </div>
+                
+                <div class="row">
+                    {% if objectifs %}
+                        {% for objectif in objectifs %}
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100 p-4 shadow-sm">
+                                <h5 class="card-title">{{ objectif.name }}</h5>
+                                <div class="progress mb-2" style="height: 15px;">
+                                    {% set percentage = (objectif.current_amount / objectif.target_amount) * 100 %}
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ percentage|round(2) }}%;" aria-valuenow="{{ objectif.current_amount }}" aria-valuemin="0" aria-valuemax="{{ objectif.target_amount }}"></div>
+                                </div>
+                                <p class="text-muted mb-1">
+                                    {{ "%.2f"|format(objectif.current_amount) }} FCFA / {{ "%.2f"|format(objectif.target_amount) }} FCFA ({{ percentage|round(2) }}%)
+                                </p>
+                                <p class="card-text text-muted">
+                                    {{ objectif.notes }}
+                                </p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12">
+                            <p class="text-muted text-center">Aucun objectif enregistré. Ajoutez-en un pour commencer !</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addObjectifModal" tabindex="-1" aria-labelledby="addObjectifModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addObjectifModalLabel">Ajouter un objectif</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('main.objectifs') }}" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control") }}
+                        {% for error in form.name.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.target_amount.label(class="form-label") }}
+                        {{ form.target_amount(class="form-control") }}
+                        {% for error in form.target_amount.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.current_amount.label(class="form-label") }}
+                        {{ form.current_amount(class="form-control") }}
+                        {% for error in form.current_amount.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary w-100") }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+
+{% block body_class %}bg-chat{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="mb-4 text-center text-white" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.6);">L'IA est là pour vous guider</h1>
+            <div class="card shadow" style="height: 70vh;">
+                <div class="card-body d-flex flex-column p-4" style="overflow-y: auto;">
+                    <div id="chat-box" class="d-flex flex-column">
+                        <div class="message received mb-3 p-3 rounded bg-light-subtle align-self-start">
+                            Bonjour ! Je suis votre assistant financier. Comment puis-je vous aider aujourd'hui ?
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light-subtle p-3">
+                    <form id="chat-form" class="input-group">
+                        <input type="text" id="user-input" class="form-control rounded-pill border-0 me-2" placeholder="Posez une question..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary rounded-pill">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.858 14.14a.5.5 0 0 1-.9.0L.146 6.646a.5.5 0 0 1 .11-.54c.14-.11.32-.15.5-.04l12.8 5.66a.5.5 0 0 1 0 .88L3.25 15.684a.5.5 0 0 1-.9-.0L.146 1.446a.5.5 0 0 1 .11-.54z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
+
